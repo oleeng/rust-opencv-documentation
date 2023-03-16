@@ -173,23 +173,23 @@ pub fn hough_lines_p(image: &dyn ToInputArray, lines: &mut dyn ToOutputArray, rh
 ### Usage
 ```rust
 use opencv::imgproc;
-use opencv::core::Point;
+use opencv::core::*;
 let mut lines = Mat::default();
 imgproc::hough_lines_p(&img, &mut lines, 1.0, std::f64::consts::PI / 180.0, 500, 10.0, 200.0,).unwrap();
 for i in 0..lines.cols().unwrap() {
     let line = lines.at_row::<i32>(0).unwrap().at(i).unwrap();
-    let p1 = Point::new(line[0], line[1]);
-    let p2 = Point::new(line[2], line[3]);
+    let p1 = Point_::new(line[0], line[1]);
+    let p2 = Point_::new(line[2], line[3]);
 }
 ```
 or
 ```rust
 use opencv::imgproc;
-use opencv::core::Point;
+use opencv::core::*;
 let mut lines = opencv::types::VectorOfVec4i::new();
 imgproc::hough_lines_p(&img, &mut lines, 1.0, std::f64::consts::PI / 180.0, 500, 10.0, 200.0,).unwrap();
 for line in lines.iter() {
-    let p1 = Point::new(line[0], line[1]);
-    let p2 = Point::new(line[2], line[3]);
+    let p1 = Point_::new(line[0], line[1]);
+    let p2 = Point_::new(line[2], line[3]);
 }
 ```

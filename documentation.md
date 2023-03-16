@@ -183,7 +183,7 @@ for i in 0..lines.cols().unwrap() {
 }
 ```
 or
-````rust
+```rust
 use opencv::imgproc;
 use opencv::core::Point;
 let mut lines = opencv::types::VectorOfVec4i::new();

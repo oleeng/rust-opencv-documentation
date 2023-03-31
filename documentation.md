@@ -24,6 +24,22 @@ use opencv::imgcodecs;
 let img = imgcodecs::imread("path/to/image.png", imgcodecs::IMREAD_GRAYSCALE).unwrap();
 ```
 
+## imwrite
+This function saves an image
+```rust
+pub fn imwrite(filename: &str, img: &dyn ToInputArray, params: &VectorOfint) -> Result<bool>
+```
+
+### Parameter
+- filename: String of the filename of written image
+- img: input array of the image
+- params: Parameters like compression. Vector::new() to use no compression
+
+### Usage
+```rust
+imgcodecs::imwrite("out_images.png", &img, &Vector::new())?;
+```
+
 ## threshold
 This function applies a threshold function to the image
 ```rust
@@ -191,5 +207,33 @@ imgproc::hough_lines_p(&img, &mut lines, 1.0, std::f64::consts::PI / 180.0, 500,
 for line in lines.iter() {
     let p1 = Point_::new(line[0], line[1]);
     let p2 = Point_::new(line[2], line[3]);
+    // draw line on image
+    opencv::imgproc::line(&mut out_image, p1, p2, opencv::core::Scalar::new(0.0, 0.0, 255.0, 0.0), 3, opencv::imgproc::LINE_AA, 0)?;
 }
+```
+
+## Blur
+Used to blur an image
+```rust
+pub fn blur(src: &dyn ToInputArray, dst: &mut dyn ToOutputArray, ksize: Size, anchor: Point, border_type: i32) -> Result<()>
+```
+
+### Parameter
+- src: input array of the image
+- dst: output array of the result image
+- ksize: Size of the blur area
+- anchor: The anchor point of the used kernel. (-1, -1) correspods to the center of the created kernel
+- border_type: most of the time use BORDER_DEFAULT
+
+### Usage
+```rust
+use opencv::core::*;
+use opencv::imgcodecs::*;
+use opencv::imgproc::*;
+
+// Apply a Gaussian blur filter to the image
+    let mut result = Mat::default();
+    let kernel_size = Size::new(5, 5);
+    let anchor = Point::new(-1, -1);
+    blur(&img, &mut result, kernel_size, anchor, BORDER_DEFAULT).unwrap();
 ```
